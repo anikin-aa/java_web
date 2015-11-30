@@ -1,29 +1,12 @@
 package Data;
 
 public class User {
-    Integer id;
-    String Name, Email, Surname;
-    Integer age, passNumb, passSeries;
+    public Integer id;
+    public String Name, Email, Surname;
+    public Integer age, passNumb, passSeries;
 
-    public User( String name, String sname) {
-        Name = name;
-        Surname = sname;
-    }
-    public User(Integer id, String name, String sname) {
-        this.id = id;
-        Name = name;
-        Surname = sname;
-    }
 
-    public User( String name, String email, String surname, Integer age, Integer passNumb, Integer passSeries) {
-        Name = name;
-        Email = email;
-        Surname = surname;
-        this.age = age;
-        this.passNumb = passNumb;
-        this.passSeries = passSeries;
-    }
-    public User( Integer id, String name, String email, String surname, Integer age, Integer passNumb, Integer passSeries) {
+    public User(Integer id, String name, String email, String surname, Integer age, Integer passNumb, Integer passSeries) {
         this.id = id;
         Name = name;
         Email = email;
@@ -91,6 +74,6 @@ public class User {
 
     @Override
     public String toString() {
-        return "("+"'"+Name+"','"+Surname+"','"+Email+"','"+age+"','"+passSeries+"','"+passNumb+"')";
+        return "(" + "'" + Name + "','" + Surname + "','" + Email + "','" + age + "','" + passSeries + "','" + passNumb + "')";
     }
 }

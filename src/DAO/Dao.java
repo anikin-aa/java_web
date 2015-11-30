@@ -2,23 +2,26 @@ package DAO;
 
 
 import Data.User;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class Dao {
-    private static final String URL = "jdbc:mysql://localhost:3306/db_first";
-    private static final String USERNAME = "root";
-    private static final String PASSWORD = "root";
-    public static List<User> Users = new ArrayList();
+    public static final String URL = "jdbc:mysql://localhost:3306/db_first";
+    public static final String USERNAME = "root";
+    public static final String PASSWORD = "root";
+    public List<User> Users = new ArrayList();
     private Connection connection;
     private Statement st;
 
+    public Dao() {
+    }
 
-    public List<User> getUsers() {
+
+    public List<User> getUsers() throws ClassNotFoundException {
         try {
+            Class.forName("com.mysql.jdbc.Driver");
             connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
             st = connection.createStatement();
         } catch (SQLException e) {
