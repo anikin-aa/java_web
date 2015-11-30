@@ -22,7 +22,7 @@
 
 <div class="container">
     <h2 align="center">Table of users</h2>
-    <table class="table  table-striped table-bordered">
+    <table class="table table-striped ">
         <thead>
         <tr>
             <th>FirstName</th>
