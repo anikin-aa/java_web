@@ -2,6 +2,7 @@ package DAO;
 
 
 import Data.User;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,12 +17,16 @@ public class Dao {
     private Statement st;
 
     public Dao() {
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
 
-    public List<User> getUsers() throws ClassNotFoundException {
+    public List<User> getUsers() {
         try {
-            Class.forName("com.mysql.jdbc.Driver");
             connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
             st = connection.createStatement();
         } catch (SQLException e) {
@@ -107,14 +112,14 @@ public class Dao {
         return null;
     }
 
-    public void addUser(User p) {
+    public void addUser(User u) {
         try {
             connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
             st = connection.createStatement();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        String q = "insert into users (name,surname,email,age,passportSeries,passportNumber) values " + p.toString() + ";";
+        String q = "insert into users (name,surname,email,age,passportSeries,passportNumber) values " + u.toString() + ";";
         try {
             st.executeUpdate(q);
         } catch (SQLException se) {
@@ -137,4 +142,28 @@ public class Dao {
         }
     }
 
+    public void updateUser(User u) {
+        String q = "Update users set name ='" + u.getName() + "',surname='" + u.getSurname() + "',email='" + u.getEmail() +
+                "',age=" + u.getAge() + ",passportSeries='" + u.getpassSeries() + "',passportNumber='" + u.getpassNumb() + "' where id=" + u.getId();
+        try {
+            connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+            st = connection.createStatement();
+            st.executeUpdate(q);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (st != null)
+                    connection.close();
+            } catch (SQLException se) {
+                se.printStackTrace();
+            }
+            try {
+                if (connection != null)
+                    connection.close();
+            } catch (SQLException se) {
+                se.printStackTrace();
+            }
+        }
+    }
 }
