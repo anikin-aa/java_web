@@ -9,7 +9,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
 <head>
-<head>
     <title>Details</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -17,56 +16,60 @@
     <script src=js_validators.js></script>
 </head>
 <body>
-<form class="pure-form pure-form-aligned" >
+
+<div class="container">
+<form class="pure-form pure-form-aligned">
     <legend>Detailed info about user:</legend>
     <input type="hidden" id="id" value="<c:out value="${user.id}"></c:out>"/>
     <fieldset>
         <div class="pure-control-group">
             <label for="name">First Name</label>
-            <input id="name"  type="text" value="<c:out value="${user.name}"/>"
+            <input id="name" name="name" type="text" value="<c:out value="${user.name}"/>"
                    onchange="check_string(this)">
         </div>
 
         <div class="pure-control-group">
             <label for="surname">Last Name</label>
-            <input id="surname"  type="text" value="<c:out value="${user.surname}"/>"
+            <input id="surname" name="surname" type="text" value="<c:out value="${user.surname}"/>"
                    onchange="check_string(this)">
         </div>
 
         <div class="pure-control-group">
             <label for="email">Email Address</label>
-            <input id="email"  type="email" value="<c:out value="${user.email}"/>"
+            <input id="email" type="email" value="<c:out value="${user.email}"/>"
                    onchange="check_email(this)">
         </div>
 
         <div class="pure-control-group">
             <label for="age">Age of user</label>
-            <input id="age"  type="text" value="<c:out value="${user.age}"/>"
+            <input id="age" type="text" value="<c:out value="${user.age}"/>"
                    onchange="check_age(this)">
         </div>
 
         <div class="pure-control-group">
             <label for="series">Passport Series</label>
-            <input id="series"  type="text" value="<c:out value="${user.getpassSeries()}"/>"
+            <input id="series" type="text" value="<c:out value="${user.getpassSeries()}"/>"
                    onchange="check_series(this)">
         </div>
 
         <div class="pure-control-group">
             <label for="number">Passport Number</label>
-            <input id="number"  type="text" value="<c:out value="${user.getpassNumb()}"/>"
+            <input id="number" type="text" value="<c:out value="${user.getpassNumb()}"/>"
                    onchange="check_numb(this)">
         </div>
 
-        <div class="pure-controls">
-            <button type="submit" id="submit"  class="pure-button pure-button-primary">Submit</button>
-            <a href="/">
-                <button class="pure-button pure-button-primary" >Back to main table</button>
-            </a>
+        <div  class="pure-controls">
+            <button type="submit" id="submit" class="pure-button pure-button-primary">Submit</button>
         </div>
 
     </fieldset>
 </form>
-
+<div class="pure-controls">
+    <a href="/">
+        <button class="pure-button pure-button-primary">Back to main table</button>
+    </a>
+</div>
+</div>
 <script>
     function myFunction() {
         var str = "Back to main table";

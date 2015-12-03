@@ -24,9 +24,6 @@
                onclick="addRow('dataTable')"/>
         <INPUT type="button" value="Delete Row" class="pure-button pure-button-primary"
                onclick="deleteRow('dataTable')"/>
-        <a id="test" href="">
-            <button class="pure-button pure-button-primary"></button>
-        </a>
     </div>
     <br>
     <table id="dataTable" class="pure-table pure-table-bordered">
@@ -105,7 +102,6 @@
     }
 
     function deleteRow(tableID) {
-        document.getElementById("test").href = "/view?id=6";
         var table = document.getElementById(tableID);
         var rowCount = table.rows.length;
         for (var i = 0; i < rowCount; i++) {
