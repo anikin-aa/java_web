@@ -17,56 +17,56 @@
     <script src=js_validators.js></script>
 </head>
 <body>
-<form class="pure-form pure-form-aligned" action="/view" method="get">
+<form class="pure-form pure-form-aligned" >
     <legend>Detailed info about user:</legend>
-    <input type="hidden" name="id" value="<c:out value="${user.id}"></c:out>"/>
+    <input type="hidden" id="id" value="<c:out value="${user.id}"></c:out>"/>
     <fieldset>
         <div class="pure-control-group">
             <label for="name">First Name</label>
-            <input id="name" name="name" type="text" value="<c:out value="${user.name}"/>"
+            <input id="name"  type="text" value="<c:out value="${user.name}"/>"
                    onchange="check_string(this)">
         </div>
 
         <div class="pure-control-group">
             <label for="surname">Last Name</label>
-            <input id="surname" name="surname" type="text" value="<c:out value="${user.surname}"/>"
+            <input id="surname"  type="text" value="<c:out value="${user.surname}"/>"
                    onchange="check_string(this)">
         </div>
 
         <div class="pure-control-group">
             <label for="email">Email Address</label>
-            <input id="email" name="email" type="email" value="<c:out value="${user.email}"/>"
+            <input id="email"  type="email" value="<c:out value="${user.email}"/>"
                    onchange="check_email(this)">
         </div>
 
         <div class="pure-control-group">
             <label for="age">Age of user</label>
-            <input id="age" name="age" type="text" value="<c:out value="${user.age}"/>"
+            <input id="age"  type="text" value="<c:out value="${user.age}"/>"
                    onchange="check_age(this)">
         </div>
 
         <div class="pure-control-group">
             <label for="series">Passport Series</label>
-            <input id="series" name="series" type="text" value="<c:out value="${user.getpassSeries()}"/>"
+            <input id="series"  type="text" value="<c:out value="${user.getpassSeries()}"/>"
                    onchange="check_series(this)">
         </div>
 
-        <div >
+        <div class="pure-control-group">
             <label for="number">Passport Number</label>
-            <input id="number" name="number" type="text" value="<c:out value="${user.getpassNumb()}"/>"
+            <input id="number"  type="text" value="<c:out value="${user.getpassNumb()}"/>"
                    onchange="check_numb(this)">
         </div>
 
         <div class="pure-controls">
-            <button type="submit" id="submit" name="submit" class="pure-button pure-button-primary">Submit</button>
+            <button type="submit" id="submit"  class="pure-button pure-button-primary">Submit</button>
+            <a href="/">
+                <button class="pure-button pure-button-primary" >Back to main table</button>
+            </a>
         </div>
 
     </fieldset>
-
 </form>
-<a href="/">
-    <button class="pure-button">Back to main table</button>
-</a>
+
 <script>
     function myFunction() {
         var str = "Back to main table";
