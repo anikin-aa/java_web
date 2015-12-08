@@ -65,7 +65,7 @@
     var count = 0;
     function addRow(tableID) {
         var table = document.getElementById(tableID);
-        document.getElementById('deleteURL').href = "localhost";
+        document.getElementById('deleteURL').href = "/";
         var rowCount = table.rows.length;
         var row = table.insertRow(rowCount);
         var colCount = table.rows[0].cells.length;
@@ -98,7 +98,6 @@
                     break;
             }
         }
-        document.getElementById("deleteURL").href = "/?action=delete&id=";
     }
     function deleteRow(tableID) {
         var table = document.getElementById(tableID);
