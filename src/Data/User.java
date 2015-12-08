@@ -16,6 +16,15 @@ public class User {
         this.passSeries = passSeries;
     }
 
+    public User(String name, String email, String surname, Integer age, Integer passNumb, Integer passSeries) {
+        Name = name;
+        Email = email;
+        Surname = surname;
+        this.age = age;
+        this.passNumb = passNumb;
+        this.passSeries = passSeries;
+    }
+
     public String getSurname() {
         return Surname;
     }
