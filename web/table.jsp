@@ -62,10 +62,8 @@
     </table>
 </div>
 <SCRIPT>
-    var count = 0;
     function addRow(tableID) {
         var table = document.getElementById(tableID);
-        document.getElementById('deleteURL').href = "/";
         var rowCount = table.rows.length;
         var row = table.insertRow(rowCount);
         var colCount = table.rows[0].cells.length;
@@ -73,7 +71,7 @@
             var cell = row.insertCell(i);
             switch (i) {
                 case 0:
-                    cell.innerHTML = '<input type = "checkbox" name = "checkbox">';
+                    cell.innerHTML = '<input type = "checkbox" onchange="add_imagine()" name = "checkbox">';
                     break;
                 case 1:
                     cell.innerHTML = '<input type= "text"  id="name" name= "name" onchange=checkAndParams()>';
@@ -200,12 +198,7 @@
         var url = document.getElementById("deleteURL");
         var s = x.value.toString();
         if (url.href.indexOf(x.value) == -1) {
-            if (count == 0) {
-                url.href += s;
-            } else {
                 url.href += " " + s;
-            }
-            count++;
         } else {
             if (url.href.indexOf(x.value) > 0) {
                 url.href = url.href.replace(new RegExp(x.value), " ");
@@ -214,6 +207,9 @@
 
     }
 
+    function add_imagine(){
+        document.getElementById("deleteURL").href +=" 001";
+    }
 </SCRIPT>
 </body>
 </html>

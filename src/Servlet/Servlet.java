@@ -52,8 +52,7 @@ public class Servlet extends HttpServlet {
                 case "delete":
                     if (request.getParameter("id").length() > 1) {
                         String id = request.getParameter("id");
-                        System.out.println(id);
-                        String chunks[] = id.split(" ");
+                        String chunks[] = id.trim().split(" ");
                         for (int i = 0; i < chunks.length; i++) {
                             new Dao().deleteUser(Integer.parseInt(chunks[i]));
                         }
