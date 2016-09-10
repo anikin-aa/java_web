@@ -2,27 +2,62 @@ package Data;
 
 public class User {
     public Integer id;
-    public String Name, Email, Surname;
-    public Integer age, passNumb, passSeries;
+    public String Name, Email, Surname, Position;
+    public Integer age, passNumb, passSeries, salary;
 
+    public String getPosition() {
+        return Position;
+    }
 
-    public User(Integer id, String name, String email, String surname, Integer age, Integer passNumb, Integer passSeries) {
+    public void setPosition(String position) {
+        Position = position;
+    }
+
+    public Integer getPassNumb() {
+        return passNumb;
+    }
+
+    public void setPassNumb(Integer passNumb) {
+        this.passNumb = passNumb;
+    }
+
+    public Integer getPassSeries() {
+        return passSeries;
+    }
+
+    public void setPassSeries(Integer passSeries) {
+        this.passSeries = passSeries;
+    }
+
+    public Integer getSalary() {
+        return salary;
+    }
+
+    public void setSalary(Integer salary) {
+        this.salary = salary;
+    }
+
+    public User(Integer id, String name, String email, String surname, String position, Integer age, Integer passNumb, Integer passSeries, Integer salary) {
         this.id = id;
         Name = name;
         Email = email;
         Surname = surname;
+        Position = position;
         this.age = age;
         this.passNumb = passNumb;
         this.passSeries = passSeries;
+        this.salary = salary;
     }
 
-    public User(String name, String email, String surname, Integer age, Integer passNumb, Integer passSeries) {
+    public User(String name, String email, String surname, String position, Integer age, Integer passNumb, Integer passSeries, Integer salary) {
         Name = name;
         Email = email;
         Surname = surname;
+        Position = position;
         this.age = age;
         this.passNumb = passNumb;
         this.passSeries = passSeries;
+        this.salary = salary;
     }
 
     public String getSurname() {
@@ -83,6 +118,6 @@ public class User {
 
     @Override
     public String toString() {
-        return "(" + "'" + Name + "','" + Surname + "','" + Email + "','" + age + "','" + passSeries + "','" + passNumb + "')";
+        return "(" + "'" + Name + "','" + Surname + "','" + Email + "','" + Position + "','" + age + "','" + passSeries + "','" + passNumb + "','" + salary + "')";
     }
 }

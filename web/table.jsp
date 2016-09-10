@@ -8,22 +8,27 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <style>
+
+    </style>
 </head>
 <body>
 <%
     request.setAttribute("users", new Dao().getUsers());
+
 %>
 <div class="container">
-
     <h2 align="center">Table of users</h2>
 
     <div class="pure-control-group">
-        <button class="pure-button pure-button-primary"
-                onclick="addRow('dataTable'); this.disabled = true">Add Row
+
+        <button type="button" class="btn btn-success" onclick="addRow('dataTable'); this.disabled = true"
+        >Add Row
         </button>
 
         <a id="deleteURL" href="/?action=delete&id=">
-            <button class="pure-button pure-button-primary"
+            <button type="button" class="btn btn-danger"
                     onclick="deleteRow('dataTable')">Delete Row
             </button>
         </a>
@@ -37,8 +42,10 @@
             <th>LastName</th>
             <th>Email</th>
             <th>Age</th>
+            <th>Position</th>
             <th>Passport Series</th>
             <th>Passport Number</th>
+            <th>Salary</th>
             <th>Actions</th>
         </tr>
         </thead>
@@ -51,10 +58,12 @@
                 <td><c:out value="${User.surname}"/></td>
                 <td><c:out value="${User.email}"/></td>
                 <td><c:out value="${User.age}"/></td>
+                <td><c:out value="${User.position}"/></td>
                 <td><c:out value="${User.getpassSeries()}"/></td>
                 <td><c:out value="${User.getpassNumb()}"/></td>
+                <td><c:out value="${User.salary}"/></td>
                 <td><a href="/?action=edit&id=<c:out value="${User.id}"></c:out>">
-                    <button class="pure-button pure-button-primary">Edit</button>
+                    <button class="btn btn-info">Edit</button>
                 </a>
             </tr>
         </c:forEach>
@@ -86,12 +95,18 @@
                     cell.innerHTML = '<input type= "text" maxlength="3" size="3" id="age" name= "age" onchange=checkAndParams()>';
                     break;
                 case 5:
-                    cell.innerHTML = '<input type= "text" maxlength="4" size="4" id="series" name= "series" onchange=checkAndParams()>';
+                    cell.innerHTML = '<input type= "text" id="position" name= "position" onchange=checkAndParams()>';
                     break;
                 case 6:
-                    cell.innerHTML = '<input type= "text" maxlength="6" size="6" id="number" name= "number" onchange=checkAndParams()>';
+                    cell.innerHTML = '<input type= "text" maxlength="4" size="4" id="series" name= "series" onchange=checkAndParams()>';
                     break;
                 case 7:
+                    cell.innerHTML = '<input type= "text" maxlength="6" size="6" id="number" name= "number" onchange=checkAndParams()>';
+                    break;
+                case 8:
+                    cell.innerHTML = '<input type= "text" maxlength="6" size="6" id="salary" name= "salary" onchange=checkAndParams()>';
+                    break;
+                case 9:
                     cell.innerHTML = '<a id="url" href="/?action=save"> <button id="saveBtn" disabled class="pure-button pure-button-primary">Save</button> </a>';
                     break;
             }
@@ -111,7 +126,6 @@
                 if (i == (rowCount - 1)) {
                     document.getElementById("addBtn").disabled = false;
                 }
-                alert(document.getElementsByName("id")[i - 1].value) // returning id
                 table.deleteRow(i);
                 rowCount--;
                 i--;
@@ -124,7 +138,7 @@
             element.style.borderColor = "";
             return true;
         } else {
-            element.style.borderColor = "E05858";
+            element.style.borderColor = "red";
             return false;
         }
     }
@@ -133,7 +147,7 @@
             element.style.borderColor = "";
             return true;
         } else {
-            element.style.borderColor = "E05858";
+            element.style.borderColor = "red";
             return false;
 
         }
@@ -147,7 +161,7 @@
             element.style.borderColor = "";
             return true;
         } else {
-            element.style.borderColor = "E05858";
+            element.style.borderColor = "red";
             return false;
         }
     }
@@ -157,7 +171,7 @@
             element.style.borderColor = "";
             return true;
         } else {
-            element.style.borderColor = "E05858";
+            element.style.borderColor = "red";
             return false;
         }
     }
@@ -166,12 +180,21 @@
             element.style.borderColor = "";
             return true;
         } else {
-            element.style.borderColor = "E05858";
+            element.style.borderColor = "red";
             return false;
         }
     }
     function add_params(element) {
         document.getElementById("url").href += "&" + element.name + "=" + element.value;
+    }
+    function check_salary(element) {
+        if (element.value.length > 4 && element.value.length < 10 && isInt(element.value) && !(element.value == "")) {
+            element.style.borderColor = "";
+            return true;
+        } else {
+            element.style.borderColor = "red";
+            return false;
+        }
     }
     function checkAndParams() {
         var name = document.getElementById("name");
@@ -180,8 +203,10 @@
         var age = document.getElementById("age");
         var series = document.getElementById("series");
         var numb = document.getElementById("number");
+        var salary = document.getElementById("salary");
+        var position = document.getElementById("position")
         if (check_string(name) && check_string(surname) && check_email(email)
-                && check_age(age) && check_series(series) && check_numb(numb)) {
+                && check_age(age) && check_string(position) && check_series(series) && check_numb(numb) && check_salary(salary)) {
             document.getElementById("saveBtn").disabled = false;
             add_params(name);
             add_params(surname);
@@ -189,6 +214,8 @@
             add_params(age);
             add_params(series);
             add_params(numb);
+            add_params(salary);
+            add_params(position);
         }
 
     }
@@ -198,7 +225,7 @@
         var url = document.getElementById("deleteURL");
         var s = x.value.toString();
         if (url.href.indexOf(x.value) == -1) {
-                url.href += " " + s;
+            url.href += " " + s;
         } else {
             if (url.href.indexOf(x.value) > 0) {
                 url.href = url.href.replace(new RegExp(x.value), " ");
@@ -207,8 +234,8 @@
 
     }
 
-    function add_imagine(){
-        document.getElementById("deleteURL").href +=" 001";
+    function add_imagine() {
+        document.getElementById("deleteURL").href += " 001";
     }
 </SCRIPT>
 </body>

@@ -41,6 +41,12 @@
             </div>
 
             <div class="pure-control-group">
+                <label for="position">Position</label>
+                <input id="position" name="position" type="text" value="<c:out value="${user.position}"/>"
+                       onchange="check()">
+            </div>
+
+            <div class="pure-control-group">
                 <label for="series">Passport Series</label>
                 <input id="series" name="series" type="text" value="<c:out value="${user.getpassSeries()}"/>"
                        onchange="check()">
@@ -49,6 +55,12 @@
             <div class="pure-control-group">
                 <label for="number">Passport Number</label>
                 <input id="number" name="number" type="text" value="<c:out value="${user.getpassNumb()}"/>"
+                       onchange="check()">
+            </div>
+
+            <div class="pure-control-group">
+                <label for="salary">Salary</label>
+                <input id="salary" name="salary" type="text" value="<c:out value="${user.getSalary()}"/>"
                        onchange="check()">
             </div>
 
@@ -68,7 +80,17 @@
             element.style.borderColor = "";
             return true;
         } else {
-            element.style.borderColor = "E05858";
+            element.style.borderColor = "red";
+            return false;
+        }
+    }
+
+    function check_salary(element) {
+        if ((element.value.length > 4 && element.value.length < 10 ) && isInt(element.value) && !(element.value == "")) {
+            element.style.borderColor = "";
+            return true;
+        } else {
+            element.style.borderColor = "red";
             return false;
         }
     }
@@ -77,7 +99,7 @@
             element.style.borderColor = "";
             return true;
         } else {
-            element.style.borderColor = "E05858";
+            element.style.borderColor = "red";
             return false;
 
         }
@@ -91,7 +113,7 @@
             element.style.borderColor = "";
             return true;
         } else {
-            element.style.borderColor = "E05858";
+            element.style.borderColor = "red";
             return false;
         }
     }
@@ -101,7 +123,7 @@
             element.style.borderColor = "";
             return true;
         } else {
-            element.style.borderColor = "E05858";
+            element.style.borderColor = "red";
             return false;
         }
     }
@@ -110,7 +132,7 @@
             element.style.borderColor = "";
             return true;
         } else {
-            element.style.borderColor = "E05858";
+            element.style.borderColor = "red";
             return false;
         }
     }
@@ -120,7 +142,9 @@
                 && check_email(document.getElementById("email"))
                 && check_age(document.getElementById("age"))
                 && check_series(document.getElementById("series"))
-                && check_numb(document.getElementById("number"))) {
+                && check_numb(document.getElementById("number"))
+                && check_string(document.getElementById("position"))
+                && check_salary(document.getElementById("salary"))) {
             document.getElementById("submit").disabled = false;
         } else {
             document.getElementById("submit").disabled = true;

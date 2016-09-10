@@ -6,6 +6,7 @@ import Data.User;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 
 public class Dao {
@@ -24,7 +25,6 @@ public class Dao {
         }
     }
 
-
     public List<User> getUsers() {
         try {
             connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
@@ -36,8 +36,8 @@ public class Dao {
         try {
             ResultSet rs = st.executeQuery(sql);
             while (rs.next()) {
-                Users.add(new User(rs.getInt("id"), rs.getString("name"), rs.getString("email"), rs.getString("surname"),
-                        rs.getInt("age"), rs.getInt("passportNumber"), rs.getInt("passportSeries")));
+                Users.add(new User(rs.getInt("id"), rs.getString("name"), rs.getString("email"), rs.getString("surname"), rs.getString("position"),
+                        rs.getInt("age"), rs.getInt("passportNumber"), rs.getInt("passportSeries"), rs.getInt("salary")));
             }
             rs.close();
         } catch (SQLException se) {
@@ -48,10 +48,6 @@ public class Dao {
             try {
                 if (st != null)
                     connection.close();
-            } catch (SQLException se) {
-                se.printStackTrace();
-            }
-            try {
                 if (connection != null)
                     connection.close();
             } catch (SQLException se) {
@@ -79,10 +75,6 @@ public class Dao {
             try {
                 if (st != null)
                     connection.close();
-            } catch (SQLException se) {
-                se.printStackTrace();
-            }
-            try {
                 if (connection != null)
                     connection.close();
             } catch (SQLException se) {
@@ -92,7 +84,7 @@ public class Dao {
     }
 
     public User getUserById(int id) {
-        String q = "select id,name,surname,email,age,passportSeries,passportNumber from users where id=" + id;
+        String q = "select * from users where id=" + id;
         try {
             connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
             st = connection.createStatement();
@@ -102,8 +94,8 @@ public class Dao {
         try {
             ResultSet rs = st.executeQuery(q);
             if (rs.next()) {
-                User user = new User(rs.getInt("id"), rs.getString("name"), rs.getString("email"), rs.getString("surname"),
-                        rs.getInt("age"), rs.getInt("passportNumber"), rs.getInt("passportSeries"));
+                User user = new User(rs.getInt("id"), rs.getString("name"), rs.getString("email"), rs.getString("surname"), rs.getString("position"),
+                        rs.getInt("age"), rs.getInt("passportNumber"), rs.getInt("passportSeries"), rs.getInt("salary"));
                 return user;
             }
             rs.close();
@@ -119,21 +111,15 @@ public class Dao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        String q = "insert into users (name,surname,email,age,passportSeries,passportNumber) values " + u.toString() + ";";
+        String q = "insert into users (name,surname,email,position,age,passportSeries,passportNumber,salary) values " + u.toString() + ";";
         try {
             st.executeUpdate(q);
-        } catch (SQLException se) {
-            se.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             try {
                 if (st != null)
                     connection.close();
-            } catch (SQLException se) {
-                se.printStackTrace();
-            }
-            try {
                 if (connection != null)
                     connection.close();
             } catch (SQLException se) {
@@ -143,8 +129,8 @@ public class Dao {
     }
 
     public void updateUser(User u) {
-        String q = "Update users set name ='" + u.getName() + "',surname='" + u.getSurname() + "',email='" + u.getEmail() +
-                "',age=" + u.getAge() + ",passportSeries='" + u.getpassSeries() + "',passportNumber='" + u.getpassNumb() + "' where id=" + u.getId();
+        String q = "Update users set name ='" + u.getName() + "',surname='" + u.getSurname() + "',email='" + u.getEmail() + "',salary='" + u.getSalary() +
+                "',age=" + u.getAge() + ",passportSeries='" + u.getpassSeries() + "',passportNumber='" + u.getpassNumb() + "',POSITION ='" + u.getPosition() + "' where id=" + u.getId();
         try {
             connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
             st = connection.createStatement();
@@ -155,10 +141,6 @@ public class Dao {
             try {
                 if (st != null)
                     connection.close();
-            } catch (SQLException se) {
-                se.printStackTrace();
-            }
-            try {
                 if (connection != null)
                     connection.close();
             } catch (SQLException se) {
@@ -166,4 +148,6 @@ public class Dao {
             }
         }
     }
+
+
 }

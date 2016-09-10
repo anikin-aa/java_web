@@ -52,16 +52,11 @@ function deleteRow(tableID) {
     }
 }
 
-function myFunction() {
-    var str = "Back to main table";
-    var result = str.link("/");
-    document.getElementById("demo").innerHTML = result;
-}
 function check_string(element) {
     var regexp = /^[a-zA-Z]+$/;
     if (element.value == "" || !element.value.match(regexp) ) {
         document.getElementById("submit").disabled = true;
-        element.style.borderColor = "E05858";
+        element.style.borderColor = "red";
     } else {
         document.getElementById("submit").disabled = false;
         element.style.borderColor = "";
@@ -70,7 +65,7 @@ function check_string(element) {
 function check_age(element) {
     if (element.value.length > 2 || !isInt(element.value)) {
         document.getElementById("submit").disabled = true;
-        element.style.borderColor = "E05858";
+        element.style.borderColor = "red";
     } else {
         document.getElementById("submit").disabled = false;
         element.style.borderColor = "";
@@ -86,7 +81,7 @@ function check_series(element) {
         element.style.borderColor = "";
     } else {
         document.getElementById("submit").disabled = true;
-        element.style.borderColor = "E05858";
+        element.style.borderColor = "red";
     }
 }
 function check_email(element) {
@@ -96,7 +91,7 @@ function check_email(element) {
         element.style.borderColor = "";
     } else {
         document.getElementById("submit").disabled = true;
-        element.style.borderColor = "E05858";
+        element.style.borderColor = "red";
     }
 }
 function check_numb(element){
@@ -105,10 +100,9 @@ function check_numb(element){
         element.style.borderColor = "";
     } else {
         document.getElementById("submit").disabled = true;
-        element.style.borderColor = "E05858";
+        element.style.borderColor = "red";
     }
 }
-
 function check(){
     check_string(document.getElementById("name"));
     check_string(document.getElementById("surname"));
