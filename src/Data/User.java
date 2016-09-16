@@ -1,71 +1,38 @@
 package Data;
 
+
 public class User {
     public Integer id;
-    public String Name, Email, Surname, Position;
-    public Integer age, passNumb, passSeries, salary;
+    public String name, email, surname, position;
+    public Integer age, salary;
 
-    public String getPosition() {
-        return Position;
-    }
-
-    public void setPosition(String position) {
-        Position = position;
-    }
-
-    public Integer getPassNumb() {
-        return passNumb;
-    }
-
-    public void setPassNumb(Integer passNumb) {
-        this.passNumb = passNumb;
-    }
-
-    public Integer getPassSeries() {
-        return passSeries;
-    }
-
-    public void setPassSeries(Integer passSeries) {
-        this.passSeries = passSeries;
-    }
-
-    public Integer getSalary() {
-        return salary;
-    }
-
-    public void setSalary(Integer salary) {
-        this.salary = salary;
-    }
-
-    public User(Integer id, String name, String email, String surname, String position, Integer age, Integer passNumb, Integer passSeries, Integer salary) {
+    public User(Integer id, String name, String email, String surname, String position, Integer age, Integer salary) {
         this.id = id;
-        Name = name;
-        Email = email;
-        Surname = surname;
-        Position = position;
+        this.name = name;
+        this.email = email;
+        this.surname = surname;
+        this.position = position;
         this.age = age;
-        this.passNumb = passNumb;
-        this.passSeries = passSeries;
         this.salary = salary;
     }
 
-    public User(String name, String email, String surname, String position, Integer age, Integer passNumb, Integer passSeries, Integer salary) {
-        Name = name;
-        Email = email;
-        Surname = surname;
-        Position = position;
+    public User(String name, String email, String surname, String position, Integer age, Integer salary) {
+        this.name = name;
+        this.email = email;
+        this.surname = surname;
+        this.position = position;
         this.age = age;
-        this.passNumb = passNumb;
-        this.passSeries = passSeries;
         this.salary = salary;
     }
 
     public String getSurname() {
-        return Surname;
+        return surname;
     }
 
     public void setSurname(String surname) {
-        Surname = surname;
+        if (surname != null) {
+            this.surname = surname;
+        }
     }
 
     public Integer getId() {
@@ -77,19 +44,23 @@ public class User {
     }
 
     public String getName() {
-        return Name;
+        return name;
     }
 
     public void setName(String name) {
-        Name = name;
+        if (name != null) {
+            this.name = name;
+        }
     }
 
     public String getEmail() {
-        return Email;
+        return email;
     }
 
     public void setEmail(String email) {
-        Email = email;
+        if (email != null) {
+            this.email = email;
+        }
     }
 
     public Integer getAge() {
@@ -97,27 +68,28 @@ public class User {
     }
 
     public void setAge(Integer age) {
-        this.age = age;
+        if (age != null) {
+            this.age = age;
+        }
     }
 
-    public Integer getpassNumb() {
-        return passNumb;
+    public String getPosition() {
+        return position;
     }
 
-    public void setpassNumb(Integer passNumb) {
-        this.passNumb = passNumb;
+    public void setPosition(String position) {
+        if (position != null) {
+            this.position = position;
+        }
     }
 
-    public Integer getpassSeries() {
-        return passSeries;
+    public Integer getSalary() {
+        return salary;
     }
 
-    public void setpassSeries(Integer passSeries) {
-        this.passSeries = passSeries;
-    }
-
-    @Override
-    public String toString() {
-        return "(" + "'" + Name + "','" + Surname + "','" + Email + "','" + Position + "','" + age + "','" + passSeries + "','" + passNumb + "','" + salary + "')";
+    public void setSalary(Integer salary) {
+        if (salary != null) {
+            this.salary = salary;
+        }
     }
 }

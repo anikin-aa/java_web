@@ -47,18 +47,6 @@
             </div>
 
             <div class="pure-control-group">
-                <label for="series">Passport Series</label>
-                <input id="series" name="series" type="text" value="<c:out value="${user.getpassSeries()}"/>"
-                       onchange="check()">
-            </div>
-
-            <div class="pure-control-group">
-                <label for="number">Passport Number</label>
-                <input id="number" name="number" type="text" value="<c:out value="${user.getpassNumb()}"/>"
-                       onchange="check()">
-            </div>
-
-            <div class="pure-control-group">
                 <label for="salary">Salary</label>
                 <input id="salary" name="salary" type="text" value="<c:out value="${user.getSalary()}"/>"
                        onchange="check()">
@@ -142,8 +130,6 @@
                 && check_email(document.getElementById("email"))
                 && check_age(document.getElementById("age"))
                 && check_series(document.getElementById("series"))
-                && check_numb(document.getElementById("number"))
-                && check_string(document.getElementById("position"))
                 && check_salary(document.getElementById("salary"))) {
             document.getElementById("submit").disabled = false;
         } else {

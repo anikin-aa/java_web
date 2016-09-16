@@ -9,14 +9,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js">
     <style>
 
     </style>
 </head>
 <body>
 <%
-    request.setAttribute("users", new Dao().getUsers());
-
+    request.setAttribute("users", Dao.getUsers());
 %>
 <div class="container">
     <h2 align="center">Table of users</h2>
@@ -43,8 +43,6 @@
             <th>Email</th>
             <th>Age</th>
             <th>Position</th>
-            <th>Passport Series</th>
-            <th>Passport Number</th>
             <th>Salary</th>
             <th>Actions</th>
         </tr>
@@ -59,8 +57,6 @@
                 <td><c:out value="${User.email}"/></td>
                 <td><c:out value="${User.age}"/></td>
                 <td><c:out value="${User.position}"/></td>
-                <td><c:out value="${User.getpassSeries()}"/></td>
-                <td><c:out value="${User.getpassNumb()}"/></td>
                 <td><c:out value="${User.salary}"/></td>
                 <td><a href="/?action=edit&id=<c:out value="${User.id}"></c:out>">
                     <button class="btn btn-info">Edit</button>
@@ -96,12 +92,6 @@
                     break;
                 case 5:
                     cell.innerHTML = '<input type= "text" id="position" name= "position" onchange=checkAndParams()>';
-                    break;
-                case 6:
-                    cell.innerHTML = '<input type= "text" maxlength="4" size="4" id="series" name= "series" onchange=checkAndParams()>';
-                    break;
-                case 7:
-                    cell.innerHTML = '<input type= "text" maxlength="6" size="6" id="number" name= "number" onchange=checkAndParams()>';
                     break;
                 case 8:
                     cell.innerHTML = '<input type= "text" maxlength="6" size="6" id="salary" name= "salary" onchange=checkAndParams()>';
@@ -201,19 +191,15 @@
         var surname = document.getElementById("surname");
         var email = document.getElementById("email");
         var age = document.getElementById("age");
-        var series = document.getElementById("series");
-        var numb = document.getElementById("number");
         var salary = document.getElementById("salary");
-        var position = document.getElementById("position")
+        var position = document.getElementById("position");
         if (check_string(name) && check_string(surname) && check_email(email)
-                && check_age(age) && check_string(position) && check_series(series) && check_numb(numb) && check_salary(salary)) {
+                && check_age(age) && check_string(position) && check_salary(salary)) {
             document.getElementById("saveBtn").disabled = false;
             add_params(name);
             add_params(surname);
             add_params(email);
             add_params(age);
-            add_params(series);
-            add_params(numb);
             add_params(salary);
             add_params(position);
         }

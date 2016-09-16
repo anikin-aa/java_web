@@ -28,7 +28,7 @@ public class Servlet extends HttpServlet {
         if (action != null) {
             switch (action) {
                 case "edit":
-                    request.setAttribute("user", new Dao().getUserById(Integer.parseInt(request.getParameter("id"))));
+                    request.setAttribute("user", Dao.getUserById(Integer.parseInt(request.getParameter("id"))));
                     request.getRequestDispatcher("edit.jsp").forward(request, response);
                     break;
                 case "save":
@@ -39,16 +39,14 @@ public class Servlet extends HttpServlet {
                     String surname = request.getParameter("surname");
                     String email = request.getParameter("email");
                     Integer age = Integer.parseInt(request.getParameter("age"));
-                    Integer numb = Integer.parseInt(request.getParameter("number"));
-                    Integer series = Integer.parseInt(request.getParameter("series"));
                     Integer salary = Integer.parseInt(request.getParameter("salary"));
                     if (request.getParameter("id") == null) {
-                        u = new User(name, email, surname, position, age, numb, series, salary);
-                        new Dao().addUser(u);
+                        u = new User(name, email, surname, position, age, salary);
+                        Dao.addUser(u);
                     } else {
                         Integer id1 = Integer.parseInt(request.getParameter("id"));
-                        u = new User(id1, name, email, surname, position, age, numb, series, salary);
-                        new Dao().updateUser(u);
+                        u = new User(id1, name, email, surname, position, age, salary);
+                        Dao.updateUser(u);
                     }
                     response.sendRedirect("/");
                     break;
@@ -57,11 +55,11 @@ public class Servlet extends HttpServlet {
                         if (request.getParameter("id").length() > 1) {
                             String id = request.getParameter("id");
                             String chunks[] = id.trim().split(" ");
-                            for (int i = 0; i < chunks.length; i++) {
-                                new Dao().deleteUser(Integer.parseInt(chunks[i]));
+                            for (String chunk : chunks) {
+                                Dao.deleteUser(Integer.parseInt(chunk));
                             }
                         } else {
-                            new Dao().deleteUser(Integer.parseInt(request.getParameter("id")));
+                            Dao.deleteUser(Integer.parseInt(request.getParameter("id")));
                         }
                         response.sendRedirect("/");
                         break;

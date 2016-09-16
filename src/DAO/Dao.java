@@ -2,152 +2,165 @@ package DAO;
 
 
 import Data.User;
+import com.sun.javafx.image.IntPixelGetter;
+import com.sun.org.apache.regexp.internal.RESyntaxException;
+import queriesAccess.QueryFinder;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 public class Dao {
+    /*
+    * need to remove username, pw from code add getting it from user???
+    * */
     public static final String URL = "jdbc:mysql://localhost:3306/db_first";
     public static final String USERNAME = "root";
     public static final String PASSWORD = "root";
-    public List<User> Users = new ArrayList();
-    private Connection connection;
-    private Statement st;
+    public static final String ERROR = "Something went wrong! ";
+    public static List<User> Users = new ArrayList<>();
+    private static Connection connection;
+    private static PreparedStatement statement;
+    private static Logger log = Logger.getLogger(QueryFinder.class.getName());
 
-    public Dao() {
+
+    static {
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+        } catch (SQLException e) {
+            log.log(Level.INFO, ERROR + e);
         }
     }
 
-    public List<User> getUsers() {
+    public static List<User> getUsers() {
         try {
-            connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
-            st = connection.createStatement();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        String sql = "SELECT * FROM users";
-        try {
-            ResultSet rs = st.executeQuery(sql);
+            statement =
+                    connection.prepareStatement(QueryFinder.getQuery("get_all_users"));
+            ResultSet rs = statement.executeQuery();
             while (rs.next()) {
-                Users.add(new User(rs.getInt("id"), rs.getString("name"), rs.getString("email"), rs.getString("surname"), rs.getString("position"),
-                        rs.getInt("age"), rs.getInt("passportNumber"), rs.getInt("passportSeries"), rs.getInt("salary")));
+                Users.add(new User(rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getString("email"),
+                        rs.getString("surname"),
+                        rs.getString("position"),
+                        rs.getInt("age"),
+                        rs.getInt("salary")));
             }
-            rs.close();
-        } catch (SQLException se) {
-            se.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
+            log.log(Level.INFO, ERROR + e);
         } finally {
-            try {
-                if (st != null)
-                    connection.close();
-                if (connection != null)
-                    connection.close();
-            } catch (SQLException se) {
-                se.printStackTrace();
-            }
+            handleConnection(connection);
         }
         return Users;
     }
 
-    public void deleteUser(int id) {
+    public static void deleteUser(int id) {
         try {
-            connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
-            st = connection.createStatement();
+            statement = connection.prepareStatement(QueryFinder.getQuery("delete_user_by_id"));
+            statement.setInt(1, id);
+            statement.execute();
         } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        String q = "DELETE from users where id =" + id;
-        try {
-            st.executeUpdate(q);
-        } catch (SQLException se) {
-            se.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
+            log.log(Level.INFO, ERROR + e);
         } finally {
-            try {
-                if (st != null)
-                    connection.close();
-                if (connection != null)
-                    connection.close();
-            } catch (SQLException se) {
-                se.printStackTrace();
-            }
+            handleConnection(connection);
         }
     }
 
-    public User getUserById(int id) {
-        String q = "select * from users where id=" + id;
+    public static User getUserById(Integer id) {
+        User user = null;
         try {
-            connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
-            st = connection.createStatement();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        try {
-            ResultSet rs = st.executeQuery(q);
-            if (rs.next()) {
-                User user = new User(rs.getInt("id"), rs.getString("name"), rs.getString("email"), rs.getString("surname"), rs.getString("position"),
-                        rs.getInt("age"), rs.getInt("passportNumber"), rs.getInt("passportSeries"), rs.getInt("salary"));
-                return user;
+            statement = connection.prepareStatement(QueryFinder.getQuery("get_info_by_id"));
+            statement.setInt(1, id);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                user = new User(rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getString("email"),
+                        rs.getString("surname"),
+                        rs.getString("position"),
+                        rs.getInt("age"),
+                        rs.getInt("salary"));
             }
-            rs.close();
         } catch (SQLException e) {
-        }
-        return null;
-    }
-
-    public void addUser(User u) {
-        try {
-            connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
-            st = connection.createStatement();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        String q = "insert into users (name,surname,email,position,age,passportSeries,passportNumber,salary) values " + u.toString() + ";";
-        try {
-            st.executeUpdate(q);
-        } catch (Exception e) {
-            e.printStackTrace();
+            log.log(Level.INFO, ERROR + e);
         } finally {
-            try {
-                if (st != null)
-                    connection.close();
-                if (connection != null)
-                    connection.close();
-            } catch (SQLException se) {
-                se.printStackTrace();
-            }
+            handleConnection(connection);
         }
+        return user;
     }
 
-    public void updateUser(User u) {
-        String q = "Update users set name ='" + u.getName() + "',surname='" + u.getSurname() + "',email='" + u.getEmail() + "',salary='" + u.getSalary() +
-                "',age=" + u.getAge() + ",passportSeries='" + u.getpassSeries() + "',passportNumber='" + u.getpassNumb() + "',POSITION ='" + u.getPosition() + "' where id=" + u.getId();
+    public static void addUser(User u) {
+        if (u == null) {
+            log.log(Level.WARNING, "Trying to add null user!");
+            return;
+        }
         try {
-            connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
-            st = connection.createStatement();
-            st.executeUpdate(q);
+            statement = connection.prepareStatement(QueryFinder.getQuery("insert_user"));
+            statement.setString(1, u.getName());
+            statement.setString(2, u.getSurname());
+            statement.setString(3, u.getEmail());
+            statement.setInt(4, u.getAge());
+            statement.setInt(5, u.getSalary());
+            statement.setString(6, u.getPosition().toLowerCase());
+            statement.execute();
+            log.log(Level.INFO, "User added! " + u);
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.log(Level.INFO, ERROR + e);
         } finally {
-            try {
-                if (st != null)
-                    connection.close();
-                if (connection != null)
-                    connection.close();
-            } catch (SQLException se) {
-                se.printStackTrace();
-            }
+            handleConnection(connection);
+        }
+
+    }
+
+    public static void updateUser(User u) {
+        if (u == null) {
+            log.log(Level.INFO, "trying to update null user!");
+            return;
+        }
+        try {
+            Integer posId = getPositionIdByName(u.getPosition());
+            statement = connection.prepareStatement(QueryFinder.getQuery("update_user_by_id"));
+            statement.setString(1, u.getName());
+            statement.setString(2, u.getSurname());
+            statement.setString(3, u.getEmail());
+            statement.setInt(4, u.getAge());
+            statement.setInt(5, u.getSalary());
+            statement.setInt(6, posId);
+            statement.setInt(7, u.getId());
+            statement.executeUpdate();
+            log.log(Level.INFO, "User updated! " + u.getId());
+        } catch (SQLException e) {
+            log.log(Level.INFO, ERROR + e);
+        } finally {
+            handleConnection(connection);
         }
     }
 
+    private static Integer getPositionIdByName(String name) throws SQLException {
+        if (name == null) {
+            return null;
+        }
+        statement = connection.prepareStatement(QueryFinder.getQuery("get_pos_id_by_name"));
+        statement.setString(1, name.toLowerCase());
+        ResultSet rs = statement.executeQuery();
+        Integer id = null;
+        while (rs.next()) {
+            id = rs.getInt(1);
+        }
+        return id;
+    }
 
+    private static void handleConnection(Connection connection) {
+        try {
+            if (statement != null)
+                connection.close();
+            if (connection != null)
+                connection.close();
+        } catch (SQLException e) {
+            System.out.println(ERROR + e);
+        }
+    }
 }

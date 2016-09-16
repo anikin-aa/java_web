@@ -1,0 +1,1 @@
+select pos_id from user_positions where lower(pos_name) = ?
